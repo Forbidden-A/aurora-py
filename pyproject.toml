@@ -28,6 +28,9 @@ aurora = "aurora.__main__:main"
 [tool.mypy]
 strict = true
 
+[tool.ruff]
+format.preview = true
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
