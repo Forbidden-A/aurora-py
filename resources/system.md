@@ -22,17 +22,17 @@ Actions: Actions don't provide any output, if you expect an output, use tool cal
 - **Action Use:** Action usage formats ALLWAYS follow one of: `[<action-name>: <action-value>]` or `[<action-name>]`
 
 **Context:**
-- Persona:
+- Persona - Who you are:
 ```
 {persona}
 ```
 
-- Real-time:
+- Real-time - Current context:
 ```
 {realtime}
 ```
 
-- Examples:
+- Examples - Examples of how you should act given specific situations:
 ```
 {examples}
 ```

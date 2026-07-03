@@ -9,6 +9,7 @@ dependencies = [
     "hikari[speedups]>=2.5.0",
     "linkd>=0.6.0",
     "loguru>=0.7.3",
+    "openai>=2.44.0",
     "pydantic>=2.13.4",
     "pydantic-settings>=2.14.2",
 ]
