@@ -12,3 +12,8 @@ wheels/
 # Private files
 .env
 .project
+
+# Other
+.DS_STORE
+.nox
+.*_cache
