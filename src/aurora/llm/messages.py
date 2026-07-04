@@ -4,20 +4,21 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+
 from openai.types.chat import ChatCompletionMessageParam
 
-RESOURCES_DIR = Path(__file__).parent.parent.parent / "resources"
+RESOURCES_DIR = Path(__file__).parent.parent.parent.parent / "resources"
 
 
 def load_persona() -> str:
     """Load and serialize the persona JSON."""
-    with open(RESOURCES_DIR / "persona.json", "r", encoding="utf-8") as f:
+    with open(RESOURCES_DIR / "persona.json", encoding="utf-8") as f:
         return json.dumps(json.load(f), indent=2)
 
 
 def load_examples() -> str:
     """Load the examples markdown file."""
-    with open(RESOURCES_DIR / "examples.md", "r", encoding="utf-8") as f:
+    with open(RESOURCES_DIR / "examples.md", encoding="utf-8") as f:
         return f.read()
 
 

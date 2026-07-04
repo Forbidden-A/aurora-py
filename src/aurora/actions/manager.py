@@ -1,14 +1,12 @@
 """Manages action registration, parsing, and execution."""
 
 from __future__ import annotations
-import typing
-from pydantic import BaseModel, Field
 
 import re
-from loguru import logger
+from collections.abc import Awaitable, Callable
 
-if typing.TYPE_CHECKING:
-    from typing import Callable, Awaitable
+from loguru import logger
+from pydantic import BaseModel, Field
 
 
 class ActionEntry(BaseModel):
@@ -19,9 +17,7 @@ class ActionEntry(BaseModel):
     field_name: str | None = Field(
         description="The name of the parameter in the action.", default=None
     )
-    handler: Callable[..., Awaitable[str]] = Field(
-        description="The function to execute."
-    )
+    handler: Callable[..., Awaitable[str]] = Field(description="The function to execute.")
 
     def get_syntax(self) -> str:
         """Return the action syntax for the system prompt."""
@@ -49,9 +45,7 @@ class ActionManager:
         if not self._actions:
             return "No actions available."
 
-        actions_list = "\n".join(
-            f"- {action.get_syntax()}" for action in self._actions.values()
-        )
+        actions_list = "\n".join(f"- {action.get_syntax()}" for action in self._actions.values())
         return f"{actions_list}"
 
     def parse_actions(self, text: str) -> list[tuple[str, str | None]]:

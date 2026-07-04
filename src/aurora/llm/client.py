@@ -1,19 +1,22 @@
 """Provider-agnostic LLM client wrapper using the OpenAI SDK."""
 
 from __future__ import annotations
-import typing
 
 import os
-from openai import AsyncOpenAI, Omit
+import typing
+
 from loguru import logger
+from openai import AsyncOpenAI, Omit
 
 if typing.TYPE_CHECKING:
     from openai.types.chat import (
         ChatCompletion,
-        ChatCompletionMessageParam,
-        ChatCompletionFunctionToolParam,
         ChatCompletionCustomToolParam,
+        ChatCompletionFunctionToolParam,
+        ChatCompletionMessageParam,
     )
+
+_DEFAULT_OMIT = Omit()
 
 
 class LLMClient:
@@ -28,8 +31,7 @@ class LLMClient:
         self.model = model
 
         self.client = AsyncOpenAI(
-            base_url=base_url
-            or os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1"),
+            base_url=base_url or os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1"),
             api_key=api_key or os.getenv("OLLAMA_API_KEY", "ollama"),
         )
 
@@ -37,7 +39,7 @@ class LLMClient:
         self,
         messages: list[ChatCompletionMessageParam],
         tools: list[ChatCompletionFunctionToolParam | ChatCompletionCustomToolParam]
-        | Omit = Omit(),
+        | Omit = _DEFAULT_OMIT,
     ) -> ChatCompletion:
         """Send a chat completion request to the LLM."""
         logger.debug(

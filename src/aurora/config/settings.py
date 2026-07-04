@@ -24,3 +24,13 @@ class Settings(BaseSettings):
         description="General log level.",
     )
     log_level: str = Field(default="DEBUG", description="Log level of Aurora.")
+
+    model_name: str = Field(description="Model name/tag to use, e.g. 'qwen3.5:9b-mlx'")
+    model_base_url: str | None = Field(
+        default=None,
+        description="OpenAI-compatible base URL. None falls back to LLMClient's Ollama default.",
+    )
+    model_api_key: str | None = Field(
+        default=None,
+        description="API key for the model provider. Can be set None for Ollama.",
+    )
