@@ -25,6 +25,7 @@ async def run_turn(
     realtime_context: str,
 ) -> None:
     """Runs one agent turn: prompt -> completion -> parse actions -> execute them."""
+    logger.debug("Running turn now.")
     system_prompt = format_system_prompt(actions.get_actions_prompt(), realtime_context)
     messages = build_initial_messages(system_prompt, user_content)
 
@@ -47,5 +48,5 @@ async def run_turn(
 
         try:
             await actions.execute_action(name, value)
-        except Exception:
-            logger.error("Action '{}' failed to execute")
+        except Exception as e:
+            logger.exception("Action '{}' failed to execute: {}", name, e)

@@ -22,7 +22,12 @@ async def note_action(
     rest: hikari.api.RESTClient = linkd.INJECTED,
 ) -> str:
     """Handle NOTE action. Temporarily always sends the notes."""
-    logger.debug("[NOTE] (channel={}, message={}) {}", message_context.channel_id, value)
+    logger.debug(
+        "[NOTE] (channel={}, message={}) {}",
+        message_context.channel_id,
+        message_context.message_id,
+        value,
+    )
     # TODO: Check whether notes are enabled before sending the message.
     try:
         await rest.create_message(

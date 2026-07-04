@@ -48,6 +48,7 @@ def build_bot(
 ) -> tuple[hikari.GatewayBot, lightbulb.GatewayEnabledClient]:
     hikari_bot = hikari.GatewayBot(
         token=settings.discord_token,
+        intents=hikari.Intents.ALL_GUILDS_UNPRIVILEGED | hikari.Intents.MESSAGE_CONTENT,
         logs=None,
     )
     lightbulb_client = lightbulb.client_from_app(hikari_bot)
@@ -79,7 +80,15 @@ def build_bot(
 
     @hikari_bot.listen(hikari.GuildMessageCreateEvent)
     async def on_guild_message_create(event: hikari.GuildMessageCreateEvent) -> None:
+        logger.debug(
+            "Recieved GuildMessageCreateEvent: {}: {}", event.author_id, event.message.content
+        )
+
         if not event.is_human or not event.content:
+            if not event.is_human:
+                logger.debug("It is not a human-sent message.")
+            if not event.content:
+                logger.debug("The content is falsey: {}", event.content)
             return
 
         message_context = MessageContext(channel_id=event.channel_id, message_id=event.message_id)
@@ -102,10 +111,11 @@ def build_bot(
                     user_content=event.content,
                     realtime_context=realtime_context,
                 )
-            except Exception:
-                logger.error(
-                    "Unhandled error while processing message in channel {}",
+            except Exception as e:
+                logger.exception(
+                    "Unhandled error while processing message in channel {}: {}",
                     event.channel_id,
+                    e,
                 )
 
     return hikari_bot, lightbulb_client
